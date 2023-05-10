@@ -1,7 +1,8 @@
+import Form from "@components/Form";
 import React from "react";
 
 const Prompt = () => {
-	return <div>Prompt</div>;
+	return <Form></Form>;
 };
 
 export default Prompt;
