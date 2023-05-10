@@ -5,17 +5,17 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Nav = () => {
-	const userLoggedIn = true;
+	const { data: session } = useSession();
 	const [providers, setProviders] = useState(null);
 	const [toggleDrop, setToggleDrop] = useState(false);
 
 	useEffect(() => {
-		const setProviders = async () => {
+		const pullProviders = async () => {
 			const response = await getProviders();
 
 			setProviders(response);
 		};
-		setProviders();
+		pullProviders();
 	}, []);
 
 	return (
@@ -32,17 +32,17 @@ const Nav = () => {
 			</Link>
 			{/*desktop nav*/}
 			<div className="sm:flex hidden">
-				{userLoggedIn ? (
-					<div className="flex gap-3 md:gap-5">
-						<Link href="/create-prompt" className="black_btn">
-							Create Prompt
+				{session?.user ? (
+					<div className="flex gap-3 md:gap-5 ">
+						<Link href="/prompt" className="outline_btn">
+							<button className="red_gradient ">Create Prompt</button>
 						</Link>
 						<button className="outline_btn" onClick={signOut}>
 							Sign Out
 						</button>
 						<Link href="/profile">
 							<Image
-								src="../assets/images/logo.svg"
+								src={session?.user.image as string}
 								width={37}
 								height={37}
 								className="rounded-full"
@@ -67,10 +67,10 @@ const Nav = () => {
 			</div>
 
 			<div className="sm:hidden flex relative">
-				{userLoggedIn ? (
+				{session?.user ? (
 					<div className="flex">
 						<Image
-							src="/assets/images/logo.svg"
+							src={session?.user.image as string}
 							width={37}
 							height={37}
 							className="rounded-full"
