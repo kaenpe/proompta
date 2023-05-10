@@ -1,11 +1,10 @@
-import "./globals.css";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import Nav from "@components/Nav";
+import Provider from "@components/Provider";
+import "@styles/globals.css";
 
 export const metadata = {
 	title: "Proompta",
-	description: "Prompting with style",
+	description: "Prompting with style.",
 };
 
 export default function RootLayout({
@@ -15,7 +14,17 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>{children}</body>
+			<body>
+				<Provider>
+					<div className="main">
+						<div className="gradient"></div>
+					</div>
+					<main className="app">
+						<Nav></Nav>
+						{children}
+					</main>
+				</Provider>
+			</body>
 		</html>
 	);
 }
