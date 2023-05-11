@@ -28,7 +28,7 @@ const Nav = () => {
 					height={30}
 					className="object-contain"
 				></Image>
-				<p className="logo_text">Proompta</p>
+				<p className="logo_text text-sm">Proompta</p>
 			</Link>
 			{/*desktop nav*/}
 			<div className="sm:flex hidden">

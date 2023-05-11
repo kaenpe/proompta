@@ -134,7 +134,7 @@
 
 /* Nav Component */
 .logo_text {
-	@apply max-sm:hidden font-satoshi font-semibold text-lg text-black tracking-wide hover:bg-gradient-to-tr from-rose-800 via-rose-500 to-rose-900;
+	@apply max-sm:hidden font-satoshi font-semibold text-lg text-black tracking-wide hover:bg-gradient-to-r from-rose-800 via-rose-500 to-rose-900;
 }
 
 .dropdown {
