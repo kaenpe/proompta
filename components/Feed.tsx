@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import PromptList from "./PromptList";
+import { TUser } from "@consts/users";
 
 type FormData = { prompt: string };
-const Feed = () => {
+const Feed = ({ data }: TUser[]) => {
 	const [searchPrompt, setSearchPrompt] = useState("");
 	const [prompts, setPrompts] = useState("");
 	useEffect(() => {
@@ -31,10 +32,9 @@ const Feed = () => {
 					placeholder="Search for a tag or proompter's name"
 					className="search_input peer"
 					{...register("prompt")}
-					onChange={() => setSearchPrompt(watch("prompt"))}
 				></input>
 			</form>
-			<PromptList data={prompts} handleTagClick={() => {}}></PromptList>
+			<PromptList data={data} handleTagClick={() => {}}></PromptList>
 		</section>
 	);
 };
