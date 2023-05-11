@@ -6,12 +6,13 @@ import PromptList from "./PromptList";
 type FormData = { prompt: string };
 const Feed = ({ prompts }) => {
 	const [searchPrompt, setSearchPrompt] = useState("");
-
 	const { register } = useForm<FormData>();
+	const handleTagClick = (tag) => {
+		setSearchPrompt(tag);
+	};
 
 	return (
 		<section className="feed">
-			<p>{searchPrompt}</p>
 			<form className="relative w-full flex-center">
 				<input
 					placeholder="Search for a tag or proompter's name"
@@ -24,7 +25,11 @@ const Feed = ({ prompts }) => {
 					})}
 				></input>
 			</form>
-			<PromptList prompts={prompts} handleTagClick={searchPrompt}></PromptList>
+			<PromptList
+				prompts={prompts}
+				handleTagClick={handleTagClick}
+				searchPrompt={searchPrompt}
+			></PromptList>
 		</section>
 	);
 };

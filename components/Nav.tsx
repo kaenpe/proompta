@@ -26,7 +26,7 @@ const Nav = () => {
 					alt="Proompta Logo"
 					width={30}
 					height={30}
-					className="object-contain"
+					className="object-contain bg-clip-text hover:bg-rose-900"
 				></Image>
 				<p className="logo_text text-sm">Proompta</p>
 			</Link>
@@ -37,10 +37,10 @@ const Nav = () => {
 						<Link href="/prompt" className="black_btn">
 							<button>Create Prompt</button>
 						</Link>
-						<button className="outline_btn" onClick={() => signOut}>
+						<button className="outline_btn" onClick={() => signOut()}>
 							Sign Out
 						</button>
-						<Link href="/profile">
+						<Link href={`/profile/${session.user.id}`}>
 							<Image
 								src={session?.user.image as string}
 								width={37}
@@ -80,7 +80,7 @@ const Nav = () => {
 						{toggleDrop && (
 							<div className="dropdown">
 								<Link
-									href="/profile"
+									href={`/profile/${session.user.id}`}
 									className="dropdown_link"
 									onClick={() => setToggleDrop(false)}
 								>
