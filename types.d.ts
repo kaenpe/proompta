@@ -2,10 +2,7 @@ import { NextApiRequest } from "next";
 import { Session } from "next-auth";
 
 export type TPrompt = {
-	map(arg0: (promptData: TPrompt) => import("react").JSX.Element): any;
-	filter(arg0: ({ tag, creator }: TPrompt) => boolean): any;
 	_id: string;
-	never: Array<string>;
 	creator: {
 		_id: string;
 		email: string;
@@ -26,10 +23,10 @@ export type TStaticParams = {
 	};
 };
 
-export interface IGetNewPromptRequest extends NextApiRequest {
+export interface INewRequest extends NextApiRequest {
 	json: () => {
-		userId: string;
-		prompt: string;
-		tag: string;
+		userId?: string;
+		prompt?: string;
+		tag?: string;
 	}; // or any other type
 }

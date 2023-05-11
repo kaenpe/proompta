@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PromptList from "./PromptList";
 import { useSession } from "next-auth/react";
 
-const Profile = () => {
+const Profile = ({ params }: { params: { id: string } }) => {
 	const { data: session } = useSession();
 	const [profilePrompts, setProfilePrompts] = useState([]);
 	const [searchPrompt, setSearchPrompt] = useState("");
@@ -14,14 +14,14 @@ const Profile = () => {
 
 	useEffect(() => {
 		const fetchPosts = async () => {
-			const response = await fetch(`/api/profiles/${session?.user.id}/prompts`);
+			const response = await fetch(`/api/profiles/${params.id}/prompts`);
 			const data = await response.json();
 
 			setProfilePrompts(data);
 		};
 
-		if (session?.user.id) fetchPosts();
-	}, [session?.user.id]);
+		if (params?.id) fetchPosts();
+	}, [session?.user.id, params]);
 
 	return (
 		<section className="feed">
