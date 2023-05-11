@@ -3,21 +3,30 @@ import React, { useEffect, useState } from "react";
 import PromptList from "./PromptList";
 import { useSession } from "next-auth/react";
 
-const Feed = ({ prompts }) => {
+const Profile = () => {
 	const { data: session } = useSession();
+	const [profilePrompts, setProfilePrompts] = useState([]);
 	const [searchPrompt, setSearchPrompt] = useState("");
-	const handleTagClick = (tag) => {
+
+	const handleTagClick = (tag: string) => {
 		setSearchPrompt(tag);
 	};
 
 	useEffect(() => {
-		console.log(session?.user.id);
-	}, [session]);
+		const fetchPosts = async () => {
+			const response = await fetch(`/api/profiles/${session?.user.id}/prompts`);
+			const data = await response.json();
+
+			setProfilePrompts(data);
+		};
+
+		if (session?.user.id) fetchPosts();
+	}, [session?.user.id]);
 
 	return (
 		<section className="feed">
 			<PromptList
-				prompts={prompts}
+				prompts={profilePrompts}
 				handleTagClick={handleTagClick}
 				searchPrompt={searchPrompt}
 			></PromptList>
@@ -25,4 +34,4 @@ const Feed = ({ prompts }) => {
 	);
 };
 
-export default Feed;
+export default Profile;

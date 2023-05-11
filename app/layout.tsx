@@ -1,6 +1,7 @@
 import Nav from "@components/Nav";
 import Provider from "@components/Provider";
 import "@styles/globals.css";
+import { Session } from "next-auth";
 
 export const metadata = {
 	title: "Proompta",
@@ -9,13 +10,15 @@ export const metadata = {
 
 export default function RootLayout({
 	children,
+	session,
 }: {
 	children: React.ReactNode;
+	session: Session;
 }) {
 	return (
 		<html lang="en">
 			<body>
-				<Provider>
+				<Provider session={session}>
 					<div className="main">
 						<div className="gradient"></div>
 					</div>

@@ -1,15 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import PromptList from "./PromptList";
 
 type FormData = { prompt: string };
-const Feed = ({ prompts }) => {
+const Feed = () => {
+	const [prompts, setPrompts] = useState([]);
 	const [searchPrompt, setSearchPrompt] = useState("");
 	const { register } = useForm<FormData>();
-	const handleTagClick = (tag) => {
+	const handleTagClick = (tag: string) => {
 		setSearchPrompt(tag);
 	};
+
+	const fetchPosts = async () => {
+		const response = await fetch("/api/prompt");
+		const data = await response.json();
+
+		setPrompts(data);
+	};
+	useEffect(() => {
+		fetchPosts();
+	}, []);
 
 	return (
 		<section className="feed">
