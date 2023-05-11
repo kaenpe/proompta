@@ -2,26 +2,26 @@
 import React, { useEffect, useState } from "react";
 import PromptList from "./PromptList";
 import { useSession } from "next-auth/react";
+import { TPrompt } from "@types";
 
-const Profile = ({ params }: { params: { id: string } }) => {
-	const { data: session } = useSession();
-	const [profilePrompts, setProfilePrompts] = useState([]);
+const Profile = () => {
 	const [searchPrompt, setSearchPrompt] = useState("");
-
+	const [profilePrompts, setProfilePrompts] = useState([]);
+	const { data: session } = useSession();
 	const handleTagClick = (tag: string) => {
 		setSearchPrompt(tag);
 	};
-
 	useEffect(() => {
-		const fetchPosts = async () => {
-			const response = await fetch(`/api/profiles/${params.id}/prompts`);
-			const data = await response.json();
-
+		const getProfilePrompts = async () => {
+			const prompts = await fetch(
+				`http://localhost:3000/api/profiles/${session?.user.id}/prompts`
+			);
+			const data = await prompts.json();
 			setProfilePrompts(data);
 		};
 
-		if (params?.id) fetchPosts();
-	}, [session?.user.id, params]);
+		getProfilePrompts();
+	}, [session?.user.id]);
 
 	return (
 		<section className="feed">

@@ -22,7 +22,13 @@ export type TStaticParams = {
 		};
 	};
 };
-
+export type TProviderProps = {
+	callbackUrl: string;
+	id: string;
+	name: string;
+	signinUrl: string;
+	type: string;
+};
 export interface INewRequest extends NextApiRequest {
 	json: () => {
 		userId?: string;

@@ -3,16 +3,16 @@ import React, { useEffect, useState } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
+import { TProviderProps } from "@types";
 
 const Nav = () => {
 	const { data: session } = useSession();
-	const [providers, setProviders] = useState(null);
+	const [providers, setProviders]: any = useState(null);
 	const [toggleDrop, setToggleDrop] = useState(false);
 
 	useEffect(() => {
 		const pullProviders = async () => {
 			const response = await getProviders();
-
 			setProviders(response);
 		};
 		pullProviders();
@@ -53,7 +53,7 @@ const Nav = () => {
 				) : (
 					<>
 						{providers &&
-							Object.values(providers).map((provider) => (
+							Object.values(providers).map((provider: any) => (
 								<button
 									className="black_btn"
 									key={provider.name}
@@ -108,7 +108,7 @@ const Nav = () => {
 				) : (
 					<>
 						{providers &&
-							Object.values(providers).map((provider) => (
+							Object.values(providers).map((provider: any) => (
 								<button
 									className="black_btn"
 									key={provider.name}
