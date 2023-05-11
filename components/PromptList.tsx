@@ -1,16 +1,12 @@
 import React from "react";
 import Card from "./Card";
 
-const PromptList = ({ data, handleTagClick }) => {
+const PromptList = ({ prompts, handleTagClick }) => {
 	return (
 		<div className="mt-16 prompt_layout">
-			{data.map(({ creator, prompt, tag }) => {
-				return (
-					<p>
-						{prompt} {tag}
-					</p>
-				);
-			})}
+			{prompts.map((promptData) => (
+				<Card promptData={promptData}></Card>
+			))}
 		</div>
 	);
 };

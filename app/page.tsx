@@ -17,7 +17,7 @@ const Home = async () => {
 				Proompta is an open source AI app that serves as a place to share
 				creative prompts with other curious proompters.
 			</p>
-			<Feed data={prompts}></Feed>
+			<Feed prompts={prompts}></Feed>
 		</section>
 	);
 };
