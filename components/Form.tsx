@@ -38,9 +38,7 @@ export default function Form({ type }: IForm) {
 		} catch (error) {
 			console.log(error);
 		} finally {
-			setTimeout(() => {
-				setSubmitting(false);
-			}, 500);
+			setSubmitting(false);
 		}
 	});
 	// firstName and lastName will have correct type
