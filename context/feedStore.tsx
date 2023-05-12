@@ -2,9 +2,13 @@ import { TPrompt } from "@types";
 import { create } from "zustand";
 interface IPromptStore {
 	prompts: TPrompt[];
-	setPrompts: (prompt: TPrompt) => void;
+	profilePrompts: TPrompt[];
+	setPrompts: (prompt: TPrompt[]) => void;
+	setProfilePrompts: (prompt: TPrompt[]) => void;
 }
 export const usePromptStore = create<IPromptStore>((set) => ({
 	prompts: [],
-	setPrompts: (data) => set((state) => ({ prompts: [...state.prompts, data] })),
+	profilePrompts: [],
+	setPrompts: (data) => set(() => ({ prompts: data })),
+	setProfilePrompts: (data) => set(() => ({ prompts: data })),
 }));

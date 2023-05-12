@@ -3,10 +3,13 @@ import React, { useEffect, useState } from "react";
 import PromptList from "./PromptList";
 import { useSession } from "next-auth/react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { usePromptStore } from "@context/feedStore";
 
 const Profile = () => {
 	const [searchPrompt, setSearchPrompt] = useState("");
-	const [profilePrompts, setProfilePrompts] = useState([]);
+
+	const prompts = usePromptStore((state) => state.prompts);
+	const setPrompts = usePromptStore((state) => state.setPrompts);
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const id = searchParams.get("id");
@@ -22,18 +25,18 @@ const Profile = () => {
 				}/prompts`
 			);
 			const data = await prompts.json();
-			setProfilePrompts(data);
+			setPrompts(data);
 		};
 
 		getProfilePrompts();
-	}, [id, pathname, session?.user.id]);
+	}, [id, pathname, session?.user.id, setPrompts]);
 
 	if (pathname === "/profile" && !session) return <p>Cannot access profile</p>;
 
 	return (
 		<section className="feed">
 			<PromptList
-				prompts={profilePrompts}
+				prompts={prompts}
 				handleTagSearch={handleTagSearch}
 				watchSearch={searchPrompt}
 			></PromptList>

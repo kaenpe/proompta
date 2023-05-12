@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import PromptList from "./PromptList";
 import { TPrompt } from "@types";
+import { usePromptStore } from "@context/feedStore";
 
 type FormData = { prompt: string };
 const Feed = () => {
-	const [prompts, setPrompts] = useState([]);
+	const prompts = usePromptStore((state) => state.prompts);
+	const setPrompts = usePromptStore((state) => state.setPrompts);
 	const { register, watch, setValue } = useForm<FormData>();
 	useEffect(() => {
 		const getAllPrompts = async () => {
@@ -16,7 +18,7 @@ const Feed = () => {
 			setPrompts(data);
 		};
 		getAllPrompts();
-	}, []);
+	}, [setPrompts]);
 
 	return (
 		<section className="feed">
