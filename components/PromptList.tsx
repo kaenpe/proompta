@@ -13,7 +13,8 @@ const PromptList = ({
 }) => {
 	const filteredData = prompts.filter(
 		({ tag, creator }: TPrompt) =>
-			creator.username === watchSearch || tag === watchSearch
+			creator.username.toLowerCase() === watchSearch ||
+			tag.toLowerCase() === watchSearch
 	);
 
 	const renderPrompts = () => {

@@ -6,6 +6,7 @@ import { TPrompt } from "@types";
 import Link from "next/link";
 import { TiDeleteOutline, TiTick } from "react-icons/ti";
 import { MdOutlineContentCopy } from "react-icons/md";
+import { usePromptStore } from "@context/promptStore";
 
 const Card = ({
 	promptData,
@@ -18,7 +19,7 @@ const Card = ({
 }) => {
 	const { data: session } = useSession();
 	const [copied, setCopied] = useState("");
-
+	const filterPrompts = usePromptStore((state) => state.filterPrompts);
 	const handleCopy = ({ prompt }: { prompt: string }) => {
 		setCopied(prompt);
 		navigator.clipboard.writeText(prompt);
@@ -35,9 +36,11 @@ const Card = ({
 		} catch (error) {
 			console.log(error);
 		}
+
+		filterPrompts(promptData._id);
 	};
 	return (
-		<div className="prompt_card">
+		<div className="prompt_card hover:bg-gradient-to-r from-slate-950/30 via-slate-800/30 to-slate-950/30">
 			<div className="flex justify-between items-center gap-5">
 				<div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
 					<Image
@@ -59,17 +62,10 @@ const Card = ({
 								{promptData.creator.username}
 							</h3>
 						</Link>
-						<Link
-							href={
-								session?.user.id === promptData.creator._id
-									? "/profile"
-									: `/profile/${promptData.creator.username}?id=${promptData.creator._id}`
-							}
-						>
-							<p className="transition-all hover:text-transparent bg-clip-text font-inter text-sm  text-slate-800 hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900">
-								{promptData.creator.email}
-							</p>
-						</Link>
+
+						<p className="font-inter text-sm  text-slate-800">
+							{promptData.creator.email}
+						</p>
 					</div>
 				</div>
 				<div className="copy_btn" onClick={() => handleCopy(promptData)}>

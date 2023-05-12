@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import PromptList from "./PromptList";
 import { useSession } from "next-auth/react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { usePromptStore } from "@context/feedStore";
+import { usePromptStore } from "@context/promptStore";
 
 const Profile = () => {
 	const [searchPrompt, setSearchPrompt] = useState("");
-
 	const profilePrompts = usePromptStore((state) => state.profilePrompts);
 	const setProfilePrompts = usePromptStore((state) => state.setProfilePrompts);
 	const searchParams = useSearchParams();
