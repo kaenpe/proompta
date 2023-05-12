@@ -40,7 +40,7 @@ const Nav = () => {
 						<button className="outline_btn" onClick={() => signOut()}>
 							Sign Out
 						</button>
-						<Link href={`/profile/${session.user.id}`}>
+						<Link href={`profile`}>
 							<Image
 								src={session?.user.image as string}
 								width={37}
@@ -80,7 +80,7 @@ const Nav = () => {
 						{toggleDrop && (
 							<div className="dropdown">
 								<Link
-									href={`/profile/${session.user.id}`}
+									href={`profile`}
 									className="dropdown_link"
 									onClick={() => setToggleDrop(false)}
 								>

@@ -1,11 +1,7 @@
 import Feed from "@components/Feed";
-import getAllPrompts from "@lib/getAllPrompts";
-import { TPrompt } from "@types";
 import React from "react";
 
 const Home = async () => {
-	const promptData: Promise<TPrompt[]> = getAllPrompts();
-	const prompts = await promptData;
 	return (
 		<section className="w-full flex-center flex-col">
 			<h1 className="head_text text-center">
@@ -17,7 +13,7 @@ const Home = async () => {
 				Proompta is an open source AI app that serves as a place to share
 				creative prompts with other curious proompters.
 			</p>
-			<Feed prompts={prompts}></Feed>
+			<Feed></Feed>
 		</section>
 	);
 };

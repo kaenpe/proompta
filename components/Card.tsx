@@ -2,9 +2,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { TPrompt } from "@types";
 import Link from "next/link";
+import { TiDeleteOutline, TiTick } from "react-icons/ti";
+import { MdOutlineContentCopy } from "react-icons/md";
 
 const Card = ({
 	promptData,
@@ -17,7 +18,6 @@ const Card = ({
 }) => {
 	const { data: session } = useSession();
 	const [copied, setCopied] = useState("");
-	const router = useRouter();
 
 	const handleCopy = ({ prompt }: { prompt: string }) => {
 		setCopied(prompt);
@@ -26,15 +26,15 @@ const Card = ({
 			setCopied("");
 		}, 1000);
 	};
-	const handleProfileClick = () => {
-		console.log(promptData);
 
-		if (promptData.creator._id === session?.user?.id)
-			return router.push("/profile");
-
-		router.push(
-			`/profile/${promptData.creator._id}?name=${promptData.creator.username}`
-		);
+	const handleDelete = async () => {
+		try {
+			await fetch(`/api/prompts/${promptData._id.toString()}`, {
+				method: "DELETE",
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 	return (
 		<div className="prompt_card">
@@ -48,41 +48,39 @@ const Card = ({
 						className="rounded-full object-contain"
 					/>
 					<div className="flex flex-col">
-						{/* <Link
+						<Link
 							href={
 								session?.user.id === promptData.creator._id
 									? "/profile"
-									: `/profile/${promptData.creator._id}`
+									: `/profile/${promptData.creator.username}?id=${promptData.creator._id}`
 							}
-							onClick={() =>
-								console.log(session?.user.id === promptData.creator._id)
-							}
-						> */}
-						<h3
-							onClick={() => console.log(promptData.creator._id)}
-							className="transition-all hover:text-transparent bg-clip-text hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900 font-satoshi font-semibold text-gray-900"
 						>
-							{promptData.creator.username}
-						</h3>
-						{/* </Link> */}
-
-						<p className="transition-all hover:text-transparent bg-clip-text font-inter text-sm  text-slate-800 hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900">
-							{promptData.creator.email}
-						</p>
+							<h3 className="transition-all hover:text-transparent bg-clip-text hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900 font-satoshi font-semibold text-gray-900">
+								{promptData.creator.username}
+							</h3>
+						</Link>
+						<Link
+							href={
+								session?.user.id === promptData.creator._id
+									? "/profile"
+									: `/profile/${promptData.creator.username}?id=${promptData.creator._id}`
+							}
+						>
+							<p className="transition-all hover:text-transparent bg-clip-text font-inter text-sm  text-slate-800 hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900">
+								{promptData.creator.email}
+							</p>
+						</Link>
 					</div>
 				</div>
 				<div className="copy_btn" onClick={() => handleCopy(promptData)}>
-					<Image
-						src={
-							copied === promptData.prompt
-								? "/assets/icons/tick.svg"
-								: "/assets/icons/copy.svg"
-						}
-						width={12}
-						height={12}
-						alt="copy-icon"
-					/>
+					{copied === promptData.prompt ? <TiTick /> : <MdOutlineContentCopy />}
 				</div>
+
+				{session?.user.id === promptData.creator._id && (
+					<div className="copy_btn" onClick={handleDelete}>
+						<TiDeleteOutline />
+					</div>
+				)}
 			</div>
 			<p className="my-4 font-satoshi text-sm  text-slate-800">
 				{promptData.prompt}
