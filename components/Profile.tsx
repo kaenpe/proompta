@@ -8,8 +8,8 @@ import { usePromptStore } from "@context/feedStore";
 const Profile = () => {
 	const [searchPrompt, setSearchPrompt] = useState("");
 
-	const prompts = usePromptStore((state) => state.prompts);
-	const setPrompts = usePromptStore((state) => state.setPrompts);
+	const profilePrompts = usePromptStore((state) => state.profilePrompts);
+	const setProfilePrompts = usePromptStore((state) => state.setProfilePrompts);
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const id = searchParams.get("id");
@@ -19,24 +19,24 @@ const Profile = () => {
 	};
 	useEffect(() => {
 		const getProfilePrompts = async () => {
-			const prompts = await fetch(
+			const profilePrompts = await fetch(
 				`http://localhost:3000/api/profiles/${
 					pathname === "/profile" ? session?.user.id : id
 				}/prompts`
 			);
-			const data = await prompts.json();
-			setPrompts(data);
+			const data = await profilePrompts.json();
+			setProfilePrompts(data);
 		};
 
 		getProfilePrompts();
-	}, [id, pathname, session?.user.id, setPrompts]);
+	}, [id, pathname, session?.user.id, setProfilePrompts]);
 
 	if (pathname === "/profile" && !session) return <p>Cannot access profile</p>;
 
 	return (
 		<section className="feed">
 			<PromptList
-				prompts={prompts}
+				prompts={profilePrompts}
 				handleTagSearch={handleTagSearch}
 				watchSearch={searchPrompt}
 			></PromptList>

@@ -10,5 +10,5 @@ export const usePromptStore = create<IPromptStore>((set) => ({
 	prompts: [],
 	profilePrompts: [],
 	setPrompts: (data) => set(() => ({ prompts: data })),
-	setProfilePrompts: (data) => set(() => ({ prompts: data })),
+	setProfilePrompts: (data) => set(() => ({ profilePrompts: data })),
 }));
