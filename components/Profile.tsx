@@ -8,7 +8,7 @@ const Profile = () => {
 	const [searchPrompt, setSearchPrompt] = useState("");
 	const [profilePrompts, setProfilePrompts] = useState([]);
 	const { data: session } = useSession();
-	const handleTagClick = (tag: string) => {
+	const handleTagSearch = (tag: string) => {
 		setSearchPrompt(tag);
 	};
 	useEffect(() => {
@@ -27,8 +27,8 @@ const Profile = () => {
 		<section className="feed">
 			<PromptList
 				prompts={profilePrompts}
-				handleTagClick={handleTagClick}
-				searchPrompt={searchPrompt}
+				handleTagSearch={handleTagSearch}
+				watchSearch={searchPrompt}
 			></PromptList>
 		</section>
 	);

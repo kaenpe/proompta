@@ -6,11 +6,7 @@ import { TPrompt } from "@types";
 
 type FormData = { prompt: string };
 const Feed = ({ prompts }: { prompts: TPrompt[] }) => {
-	const [searchPrompt, setSearchPrompt] = useState("");
-	const { register } = useForm<FormData>();
-	const handleTagClick = (tag: string) => {
-		setSearchPrompt(tag);
-	};
+	const { register, watch, setValue } = useForm<FormData>();
 
 	return (
 		<section className="feed">
@@ -18,18 +14,13 @@ const Feed = ({ prompts }: { prompts: TPrompt[] }) => {
 				<input
 					placeholder="Search for a tag or proompter's name"
 					className="search_input peer"
-					{...(register("prompt"),
-					{
-						onChange: (e) => {
-							setSearchPrompt(e.currentTarget.value);
-						},
-					})}
+					{...register("prompt")}
 				></input>
 			</form>
 			<PromptList
 				prompts={prompts}
-				handleTagClick={handleTagClick}
-				searchPrompt={searchPrompt}
+				handleTagSearch={(tag) => setValue("prompt", tag)}
+				watchSearch={watch("prompt")}
 			></PromptList>
 		</section>
 	);

@@ -4,26 +4,26 @@ import { TPrompt } from "@types";
 
 const PromptList = ({
 	prompts,
-	handleTagClick,
-	searchPrompt,
+	handleTagSearch,
+	watchSearch,
 }: {
 	prompts: TPrompt[];
-	handleTagClick: (arg: string) => void;
-	searchPrompt: string;
+	handleTagSearch: (arg: string) => void;
+	watchSearch: string;
 }) => {
 	const filteredData = prompts.filter(
 		({ tag, creator }: TPrompt) =>
-			creator.username === searchPrompt || tag === searchPrompt
+			creator.username === watchSearch || tag === watchSearch
 	);
 
 	const renderPrompts = () => {
-		if (searchPrompt === "")
+		if (watchSearch === undefined || watchSearch === "")
 			return prompts.map((promptData: TPrompt) => (
 				<Card
 					key={promptData._id}
 					promptData={promptData}
-					handleTagClick={handleTagClick}
-					searchPrompt={searchPrompt}
+					handleTagSearch={handleTagSearch}
+					watchSearch={watchSearch}
 				></Card>
 			));
 		else
@@ -31,8 +31,8 @@ const PromptList = ({
 				<Card
 					key={promptData._id}
 					promptData={promptData}
-					handleTagClick={handleTagClick}
-					searchPrompt={searchPrompt}
+					handleTagSearch={handleTagSearch}
+					watchSearch={watchSearch}
 				></Card>
 			));
 	};

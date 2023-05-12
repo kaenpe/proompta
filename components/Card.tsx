@@ -4,15 +4,16 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { TPrompt } from "@types";
+import Link from "next/link";
 
 const Card = ({
 	promptData,
-	handleTagClick,
-	searchPrompt,
+	handleTagSearch,
+	watchSearch,
 }: {
 	promptData: TPrompt;
-	handleTagClick: (arg: string) => void;
-	searchPrompt: string;
+	handleTagSearch: (arg: string) => void;
+	watchSearch: string;
 }) => {
 	const { data: session } = useSession();
 	const [copied, setCopied] = useState("");
@@ -36,7 +37,7 @@ const Card = ({
 		);
 	};
 	return (
-		<div className="prompt_card" onClick={handleProfileClick}>
+		<div className="prompt_card">
 			<div className="flex justify-between items-center gap-5">
 				<div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
 					<Image
@@ -47,9 +48,24 @@ const Card = ({
 						className="rounded-full object-contain"
 					/>
 					<div className="flex flex-col">
-						<h3 className="transition-all hover:text-transparent bg-clip-text hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900 font-satoshi font-semibold text-gray-900">
+						{/* <Link
+							href={
+								session?.user.id === promptData.creator._id
+									? "/profile"
+									: `/profile/${promptData.creator._id}`
+							}
+							onClick={() =>
+								console.log(session?.user.id === promptData.creator._id)
+							}
+						> */}
+						<h3
+							onClick={() => console.log(promptData.creator._id)}
+							className="transition-all hover:text-transparent bg-clip-text hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900 font-satoshi font-semibold text-gray-900"
+						>
 							{promptData.creator.username}
 						</h3>
+						{/* </Link> */}
+
 						<p className="transition-all hover:text-transparent bg-clip-text font-inter text-sm  text-slate-800 hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900">
 							{promptData.creator.email}
 						</p>
@@ -74,9 +90,9 @@ const Card = ({
 			<p
 				className="transition-all font-inter text-sm text-slate-950 hover:text-transparent bg-clip-text hover:bg-gradient-to-r from-rose-800 via-rose-500 to-rose-900  cursor-pointer"
 				onClick={
-					searchPrompt === ""
-						? () => handleTagClick(promptData.tag)
-						: () => handleTagClick("")
+					watchSearch === ""
+						? () => handleTagSearch(promptData.tag)
+						: () => handleTagSearch("")
 				}
 			>
 				{promptData.tag}
