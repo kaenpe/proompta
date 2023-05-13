@@ -99,10 +99,7 @@ const Card = ({
 
 				{session?.user.id === promptData.creator._id && (
 					<>
-						<div
-							className="copy_btn"
-							onClick={() => handleDelete.mutate(promptData._id)}
-						>
+						<div className="copy_btn" onClick={() => handleDelete.mutate()}>
 							<TiDeleteOutline />
 						</div>
 
