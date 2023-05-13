@@ -14,8 +14,9 @@ const getProfilePrompts = async (id: string) => {
 	const res = await fetch(`${process.env.API_URL}/api/profiles/${id}/prompts`, {
 		next: { revalidate: 10 },
 	});
-	const data = await res.json();
-	return data;
+
+	if (!res.ok) console.log("error");
+	return res.json();
 };
 const page = async ({ params }: { params: { id: string } }) => {
 	const data = await getProfilePrompts(params.id);
