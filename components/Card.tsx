@@ -75,11 +75,7 @@ const Card = ({
 					/>
 					<div className="flex flex-col">
 						<Link
-							href={
-								session?.user.id === promptData.creator._id
-									? "/profile"
-									: `/profile/${promptData.creator._id}?id=${promptData.creator.username}`
-							}
+							href={`/profile/${promptData.creator.username}?id=${promptData.creator._id}`}
 						>
 							<h3 className="transition-all hover:text-transparent bg-clip-text hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900 font-satoshi font-semibold text-gray-900">
 								{promptData.creator.username}
