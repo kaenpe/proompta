@@ -21,7 +21,6 @@ export default function Form({ type }: IForm) {
 		register,
 		handleSubmit,
 		formState: { errors },
-		watch,
 	} = useForm<TFormProps>();
 	const onSubmit = handleSubmit(async (data) => {
 		try {
