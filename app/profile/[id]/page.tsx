@@ -1,7 +1,7 @@
 import React from "react";
 import Profile from "@components/Profile";
 
-const page = async () => {
+const page = () => {
 	return <Profile></Profile>;
 };
 
