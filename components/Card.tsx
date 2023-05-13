@@ -43,7 +43,6 @@ const Card = ({
 
 		router.refresh();
 	};
-
 	const onSubmit = handleSubmit(async (data) => {
 		try {
 			const response = await fetch(`/api/prompts/${promptData._id}`, {
