@@ -1,7 +1,7 @@
 import { NextApiRequest } from "next";
 import { Session } from "next-auth";
 
-export type TPrompt = {
+export type Prompt = {
 	_id: string;
 	creator: {
 		_id: string;
