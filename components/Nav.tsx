@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
-import { TProviderProps } from "@types";
 
 const Nav = () => {
 	const { data: session } = useSession();
@@ -40,7 +39,7 @@ const Nav = () => {
 						<button className="outline_btn" onClick={() => signOut()}>
 							Sign Out
 						</button>
-						<Link href={`profile`}>
+						<Link href={`/profile/${session.user.id}`}>
 							<Image
 								src={session?.user.image as string}
 								width={37}

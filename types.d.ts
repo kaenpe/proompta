@@ -1,7 +1,7 @@
 import { NextApiRequest } from "next";
 import { Session } from "next-auth";
 
-export type TPrompt = {
+export interface Prompt {
 	_id: string;
 	creator: {
 		_id: string;
@@ -13,22 +13,22 @@ export type TPrompt = {
 	prompt: string;
 	tag: string;
 	__v: number;
-};
+}
 
-export type TStaticParams = {
+export interface TStaticParams {
 	prompt: {
 		creator: {
 			_id: string;
 		};
 	};
-};
-export type TProviderProps = {
+}
+export interface TProviderProps {
 	callbackUrl: string;
 	id: string;
 	name: string;
 	signinUrl: string;
 	type: string;
-};
+}
 export interface INewRequest extends NextApiRequest {
 	json: () => {
 		userId?: string;

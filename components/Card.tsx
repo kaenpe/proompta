@@ -2,24 +2,24 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { TPrompt } from "@types";
+import { Prompt } from "@types";
 import Link from "next/link";
 import { TiDeleteOutline, TiTick } from "react-icons/ti";
 import { MdOutlineContentCopy } from "react-icons/md";
-import { usePromptStore } from "@context/promptStore";
+
+import { useRouter } from "next/navigation";
 
 const Card = ({
 	promptData,
 	handleTagSearch,
 	watchSearch,
 }: {
-	promptData: TPrompt;
+	promptData: Prompt;
 	handleTagSearch: (arg: string) => void;
 	watchSearch: string;
 }) => {
 	const { data: session } = useSession();
 	const [copied, setCopied] = useState("");
-	const filterPrompts = usePromptStore((state) => state.filterPrompts);
 	const handleCopy = ({ prompt }: { prompt: string }) => {
 		setCopied(prompt);
 		navigator.clipboard.writeText(prompt);
@@ -27,7 +27,7 @@ const Card = ({
 			setCopied("");
 		}, 1000);
 	};
-
+	const router = useRouter();
 	const handleDelete = async () => {
 		try {
 			await fetch(`/api/prompts/${promptData._id.toString()}`, {
@@ -37,7 +37,7 @@ const Card = ({
 			console.log(error);
 		}
 
-		filterPrompts(promptData._id);
+		router.refresh();
 	};
 	return (
 		<div className="prompt_card hover:bg-gradient-to-r from-slate-950/30 via-slate-800/30 to-slate-950/30">
@@ -55,7 +55,7 @@ const Card = ({
 							href={
 								session?.user.id === promptData.creator._id
 									? "/profile"
-									: `/profile/${promptData.creator.username}?id=${promptData.creator._id}`
+									: `/profile/${promptData.creator._id}?id=${promptData.creator.username}`
 							}
 						>
 							<h3 className="transition-all hover:text-transparent bg-clip-text hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900 font-satoshi font-semibold text-gray-900">
