@@ -1,25 +1,25 @@
 import React from "react";
 import Card from "./Card";
-import { TPrompt } from "@types";
+import { Prompt } from "@types";
 
 const PromptList = ({
 	prompts,
 	handleTagSearch,
 	watchSearch,
 }: {
-	prompts: TPrompt[];
+	prompts: Prompt[];
 	handleTagSearch: (arg: string) => void;
 	watchSearch: string;
 }) => {
 	const filteredData = prompts.filter(
-		({ tag, creator }: TPrompt) =>
+		({ tag, creator }: Prompt) =>
 			creator.username.toLowerCase() === watchSearch ||
 			tag.toLowerCase() === watchSearch
 	);
 
 	const renderPrompts = () => {
 		if (watchSearch === undefined || watchSearch === "")
-			return prompts.map((promptData: TPrompt) => (
+			return prompts.map((promptData: Prompt) => (
 				<Card
 					key={promptData._id}
 					promptData={promptData}
@@ -28,7 +28,7 @@ const PromptList = ({
 				></Card>
 			));
 		else
-			return filteredData.map((promptData: TPrompt) => (
+			return filteredData.map((promptData: Prompt) => (
 				<Card
 					key={promptData._id}
 					promptData={promptData}

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { TPrompt } from "@types";
+import { Prompt } from "@types";
 import Link from "next/link";
 import { TiDeleteOutline, TiTick } from "react-icons/ti";
 import { MdOutlineContentCopy } from "react-icons/md";
@@ -13,7 +13,7 @@ const Card = ({
 	handleTagSearch,
 	watchSearch,
 }: {
-	promptData: TPrompt;
+	promptData: Prompt;
 	handleTagSearch: (arg: string) => void;
 	watchSearch: string;
 }) => {
