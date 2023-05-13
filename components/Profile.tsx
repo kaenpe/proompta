@@ -19,7 +19,7 @@ const Profile = () => {
 	useEffect(() => {
 		const getProfilePrompts = async () => {
 			const profilePrompts = await fetch(
-				`http://localhost:3000/api/profiles/${
+				`/api/profiles/${
 					pathname === "/profile" ? session?.user.id : id
 				}/prompts`
 			);
