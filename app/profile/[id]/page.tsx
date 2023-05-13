@@ -2,9 +2,9 @@ import React from "react";
 import Profile from "@components/Profile";
 import { Prompt } from "@types";
 export async function generateStaticParams() {
-	const prompts = await fetch("https://proompta.vercel.app/api/prompts", {
-		next: { revalidate: 3 },
-	}).then((res) => res.json());
+	const prompts = await fetch("https://proompta.vercel.app/api/prompts").then(
+		(res) => res.json()
+	);
 	return prompts.map((prompt: Prompt) => ({
 		id: prompt.creator._id,
 	}));
