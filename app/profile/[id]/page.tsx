@@ -10,16 +10,8 @@ export async function generateStaticParams() {
 	}));
 }
 
-const getProfilePrompts = async (id: string) => {
-	const data = await fetch(`http://localhost:3000/api/profiles/${id}/prompts`, {
-		next: { revalidate: 3 },
-	}).then((res) => res.json());
-
-	return data;
-};
-const page = async ({ params }: { params: { id: string } }) => {
-	const data = await getProfilePrompts(params.id);
-	return <Profile params={data}></Profile>;
+const page = () => {
+	return <Profile></Profile>;
 };
 
 export default page;
