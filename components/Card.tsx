@@ -11,6 +11,11 @@ import { useRouter } from "next/navigation";
 import { TFormProps } from "./Form";
 import { useForm } from "react-hook-form";
 import { usePromptStore } from "@context/promptStore";
+import {
+	QueryClient,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 
 const Card = ({
 	promptData,
@@ -22,8 +27,8 @@ const Card = ({
 	watchSearch: string;
 }) => {
 	const { data: session } = useSession();
-	const filterPrompts = usePromptStore((state) => state.filterPrompts);
 	const [editing, setEditing] = useState(false);
+	const queryClient = useQueryClient();
 	const [copied, setCopied] = useState("");
 	const { register, handleSubmit } = useForm<TFormProps>();
 	const handleCopy = ({ prompt }: { prompt: string }) => {
@@ -34,17 +39,18 @@ const Card = ({
 		}, 1000);
 	};
 	const router = useRouter();
-	const handleDelete = async () => {
-		try {
-			await fetch(`/api/prompts/${promptData._id.toString()}`, {
+
+	const handleDelete = useMutation({
+		mutationFn: () => {
+			return fetch(`/api/prompts/${promptData._id}`, {
 				method: "DELETE",
 			});
-		} catch (error) {
-			console.log(error);
-		} finally {
-			filterPrompts(promptData._id);
-		}
-	};
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["prompts"] });
+			queryClient.invalidateQueries({ queryKey: ["profilePrompts"] });
+		},
+	});
 	const onSubmit = handleSubmit(async (data) => {
 		try {
 			const response = await fetch(`/api/prompts/${promptData._id}`, {
@@ -93,7 +99,10 @@ const Card = ({
 
 				{session?.user.id === promptData.creator._id && (
 					<>
-						<div className="copy_btn" onClick={handleDelete}>
+						<div
+							className="copy_btn"
+							onClick={() => handleDelete.mutate(promptData._id)}
+						>
 							<TiDeleteOutline />
 						</div>
 

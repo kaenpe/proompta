@@ -1,5 +1,6 @@
 import Nav from "@components/Nav";
-import Provider from "@components/Provider";
+import Provider from "@utils/Provider";
+import QueryProvider from "@utils/QueryProvider";
 import "@styles/globals.css";
 import { Session } from "next-auth";
 
@@ -19,13 +20,15 @@ export default function RootLayout({
 		<html lang="en">
 			<body>
 				<Provider session={session}>
-					<div className="main">
-						<div className="gradient"></div>
-					</div>
-					<main className="app">
-						<Nav></Nav>
-						{children}
-					</main>
+					<QueryProvider>
+						<div className="main">
+							<div className="gradient"></div>
+						</div>
+						<main className="app">
+							<Nav></Nav>
+							{children}
+						</main>
+					</QueryProvider>
 				</Provider>
 			</body>
 		</html>

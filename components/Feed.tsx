@@ -4,21 +4,22 @@ import { useForm } from "react-hook-form";
 import PromptList from "./PromptList";
 
 import { usePromptStore } from "@context/promptStore";
+import { useQuery } from "@tanstack/react-query";
 
 type FormData = { prompt: string };
 const Feed = () => {
-	const prompts = usePromptStore((state) => state.prompts);
-	const setPrompts = usePromptStore((state) => state.setPrompts);
 	const { register, watch, setValue } = useForm<FormData>();
-	useEffect(() => {
-		const getAllPrompts = async () => {
-			const res = await fetch("api/prompts");
-			const data = await res.json();
-			setPrompts(data);
-		};
-		getAllPrompts();
-	}, [setPrompts]);
+	const getAllPrompts = async () => {
+		const res = await fetch("api/prompts");
+		const data = await res.json();
+		return data;
+	};
+	const { data, isLoading } = useQuery({
+		queryKey: ["prompts"],
+		queryFn: getAllPrompts,
+	});
 
+	if (isLoading) return <p>dog</p>;
 	return (
 		<section className="feed">
 			<form className="relative w-full flex-center">
@@ -29,7 +30,7 @@ const Feed = () => {
 				></input>
 			</form>
 			<PromptList
-				prompts={prompts}
+				prompts={data}
 				handleTagSearch={(tag) => setValue("prompt", tag)}
 				watchSearch={watch("prompt")}
 			></PromptList>

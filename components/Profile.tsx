@@ -4,6 +4,7 @@ import PromptList from "./PromptList";
 import { useSession } from "next-auth/react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { usePromptStore } from "@context/promptStore";
+import { useQuery } from "@tanstack/react-query";
 
 const Profile = () => {
 	const [searchPrompt, setSearchPrompt] = useState("");
@@ -16,22 +17,24 @@ const Profile = () => {
 	const handleTagSearch = (tag: string) => {
 		setSearchPrompt(tag);
 	};
-	useEffect(() => {
-		const getProfilePrompts = async () => {
-			const res = await fetch(`../api/profiles/${id}/prompts`);
-			const data = await res.json();
-			setProfilePrompts(data);
-		};
+	const getProfilePrompts = async () => {
+		const res = await fetch(`../api/profiles/${id}/prompts`);
+		const data = await res.json();
+		return data;
+	};
+	const { data, isLoading } = useQuery({
+		queryKey: ["profilePrompts"],
+		queryFn: getProfilePrompts,
+	});
 
-		getProfilePrompts();
-	}, [id, pathname, session?.user.id, setProfilePrompts]);
+	if (isLoading) return <p>dog</p>;
 
 	if (pathname === "/profile" && !session) return <p>Cannot access profilse</p>;
 
 	return (
 		<section className="feed">
 			<PromptList
-				prompts={profilePrompts}
+				prompts={data}
 				handleTagSearch={handleTagSearch}
 				watchSearch={searchPrompt}
 			></PromptList>
