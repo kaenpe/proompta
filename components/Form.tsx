@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 
-type TFormProps = {
+export type TFormProps = {
 	prompt: string;
 	tag: string;
 };
