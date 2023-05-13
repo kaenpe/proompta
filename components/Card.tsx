@@ -10,6 +10,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 import { TFormProps } from "./Form";
 import { useForm } from "react-hook-form";
+import { usePromptStore } from "@context/promptStore";
 
 const Card = ({
 	promptData,
@@ -21,6 +22,7 @@ const Card = ({
 	watchSearch: string;
 }) => {
 	const { data: session } = useSession();
+	const filterPrompts = usePromptStore((state) => state.filterPrompts);
 	const [editing, setEditing] = useState(false);
 	const [copied, setCopied] = useState("");
 	const { register, handleSubmit } = useForm<TFormProps>();
@@ -39,9 +41,9 @@ const Card = ({
 			});
 		} catch (error) {
 			console.log(error);
+		} finally {
+			filterPrompts(promptData._id);
 		}
-
-		router.refresh();
 	};
 	const onSubmit = handleSubmit(async (data) => {
 		try {
@@ -56,6 +58,8 @@ const Card = ({
 			response.ok && setEditing(false);
 		} catch (error) {
 			console.log(error);
+		} finally {
+			router.refresh();
 		}
 	});
 	return (
