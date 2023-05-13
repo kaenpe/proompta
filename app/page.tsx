@@ -2,10 +2,11 @@ import Feed from "@components/Feed";
 import React from "react";
 const getPrompts = async () => {
 	const data = await fetch("http://proompta.vercel.app/api/prompts", {
-		next: { revalidate: 3 },
+		cache: "no-store",
 	}).then((res) => res.json());
 	return data;
 };
+
 const Home = async () => {
 	const data = await getPrompts();
 	return (

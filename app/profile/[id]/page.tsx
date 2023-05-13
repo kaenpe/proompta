@@ -14,7 +14,7 @@ const getProfilePrompts = async (id: string) => {
 	const data = await fetch(
 		`https://proompta.vercel.app/api/profiles/${id}/prompts`,
 		{
-			next: { revalidate: 3 },
+			cache: "no-store",
 		}
 	).then((res) => res.json());
 
@@ -22,6 +22,7 @@ const getProfilePrompts = async (id: string) => {
 };
 const page = async ({ params }: { params: { id: string } }) => {
 	const data = await getProfilePrompts(params.id);
+
 	return <Profile params={data}></Profile>;
 };
 
