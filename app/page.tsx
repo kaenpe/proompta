@@ -1,7 +1,13 @@
 import Feed from "@components/Feed";
 import React from "react";
-
-const Home = () => {
+const getPrompts = async () => {
+	const data = await fetch("http://proompta.vercel.app/api/prompts", {
+		next: { revalidate: 3 },
+	}).then((res) => res.json());
+	return data;
+};
+const Home = async () => {
+	const data = await getPrompts();
 	return (
 		<section className="w-full flex-center flex-col">
 			<h1 className="head_text text-center">
@@ -13,7 +19,7 @@ const Home = () => {
 				Proompta is an open source AI app that serves as a place to share
 				creative prompts with other curious proompters.
 			</p>
-			<Feed></Feed>
+			<Feed prompts={data}></Feed>
 		</section>
 	);
 };
