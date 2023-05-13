@@ -30,7 +30,7 @@ const Profile = () => {
 		getProfilePrompts();
 	}, [id, pathname, session?.user.id, setProfilePrompts]);
 
-	if (pathname === "/profile" && !session) return <p>Cannot access profile</p>;
+	if (pathname === "/profile" && !session) return <p>Cannot access profilse</p>;
 
 	return (
 		<section className="feed">
