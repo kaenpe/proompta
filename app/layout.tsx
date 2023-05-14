@@ -17,7 +17,7 @@ export default function RootLayout({
 	session: Session;
 }) {
 	return (
-		<html lang="en">
+		<html lang="en" data-theme="dark">
 			<body>
 				<Provider session={session}>
 					<QueryProvider>

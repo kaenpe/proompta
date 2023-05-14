@@ -127,12 +127,12 @@
 }
 
 /* Form Component */
-.form_textarea {
-	@apply w-full flex rounded-lg h-[200px] mt-2 p-3 text-sm text-gray-500 outline-0;
+.textarea {
+	@apply w-full flex rounded-lg h-[200px] mt-2 p-3 text-sm;
 }
 
-.form_input {
-	@apply w-full flex rounded-lg mt-2 p-3 text-sm text-gray-500 outline-0;
+.input {
+	@apply w-full flex rounded-lg mt-2 p-3 text-sm outline-0;
 }
 
 /* Nav Component */
@@ -140,13 +140,13 @@
 	@apply transition-all hover:text-transparent bg-clip-text max-sm:hidden font-satoshi font-semibold text-lg text-black tracking-wide hover:bg-gradient-to-r from-rose-800 via-rose-600 to-rose-900;
 }
 
-.dropdown {
+/* .dropdown {
 	@apply absolute right-0 top-full mt-3 w-full p-5 rounded-lg bg-white min-w-[210px] flex flex-col gap-2 justify-end items-end;
 }
 
 .dropdown_link {
 	@apply text-sm font-inter text-gray-700 hover:text-gray-500 font-medium;
-}
+} */
 
 /* PromptCard Component */
 .prompt_card {

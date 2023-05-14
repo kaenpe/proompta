@@ -10,12 +10,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 import { TFormProps } from "./Form";
 import { useForm } from "react-hook-form";
-import { usePromptStore } from "@context/promptStore";
-import {
-	QueryClient,
-	useMutation,
-	useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const Card = ({
 	promptData,
@@ -40,12 +35,17 @@ const Card = ({
 	};
 	const router = useRouter();
 
-	const handleDelete = useMutation({
-		mutationFn: () => {
-			return fetch(`/api/prompts/${promptData._id}`, {
-				method: "DELETE",
-			});
-		},
+	const handleDelete = async () => {
+		const res = await fetch(`/api/prompts/${promptData._id}`, {
+			method: "DELETE",
+		});
+		const data = await res.json();
+
+		return data;
+	};
+
+	const mutation = useMutation({
+		mutationFn: handleDelete,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["prompts"] });
 			queryClient.invalidateQueries({ queryKey: ["profilePrompts"] });
@@ -64,9 +64,9 @@ const Card = ({
 			response.ok && setEditing(false);
 		} catch (error) {
 			console.log(error);
-		} finally {
-			router.refresh();
 		}
+
+		router.refresh();
 	});
 	return (
 		<div className="prompt_card hover:bg-gradient-to-r from-slate-950/30 via-slate-800/30 to-slate-950/30">
@@ -87,29 +87,39 @@ const Card = ({
 								{promptData.creator.username}
 							</h3>
 						</Link>
-
-						<p className="font-inter text-sm  text-slate-800">
-							{promptData.creator.email}
-						</p>
 					</div>
 				</div>
-				<div className="copy_btn" onClick={() => handleCopy(promptData)}>
+				<div
+					className="btn btn-circle btn-sm"
+					onClick={() => handleCopy(promptData)}
+				>
 					{copied === promptData.prompt ? <TiTick /> : <MdOutlineContentCopy />}
 				</div>
 
 				{session?.user.id === promptData.creator._id && (
 					<>
-						<div className="copy_btn" onClick={() => handleDelete.mutate()}>
-							<TiDeleteOutline />
+						<div
+							className="btn btn-circle btn-sm hover:btn-error"
+							onClick={() =>
+								confirm("Delete your prompt?") && mutation.mutate()
+							}
+						>
+							<TiDeleteOutline className="w-4 h-4" />
 						</div>
 
 						{editing ? (
-							<div className="copy_btn" onClick={() => setEditing(false)}>
-								<RxCross2 />
+							<div
+								className="btn btn-circle btn-sm"
+								onClick={() => setEditing(false)}
+							>
+								<RxCross2 className="w-4 h-4" />
 							</div>
 						) : (
-							<div className="copy_btn" onClick={() => setEditing(true)}>
-								<TiEdit />
+							<div
+								className="btn btn-circle btn-sm"
+								onClick={() => setEditing(true)}
+							>
+								<TiEdit className="w-4 h-4" />
 							</div>
 						)}
 					</>
@@ -121,14 +131,14 @@ const Card = ({
 					className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
 				>
 					<textarea
-						className="form_textarea"
+						className="textarea"
 						{...register("prompt", { value: promptData.prompt })}
 					></textarea>
 					<input
-						className="form_input"
+						className="input"
 						{...register("tag", { value: promptData.tag })}
 					></input>
-					<button type="submit" className="px-5 py-1.5 text-sm black_btn">
+					<button type="submit" className={`btn btn-sm`}>
 						Submit
 					</button>
 				</form>

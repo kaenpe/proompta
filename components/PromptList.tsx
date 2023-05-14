@@ -12,9 +12,10 @@ const PromptList = ({
 	watchSearch: string;
 }) => {
 	const filteredData = prompts.filter(
-		({ tag, creator }: Prompt) =>
+		({ tag, creator, prompt }: Prompt) =>
 			creator.username.toLowerCase() === watchSearch ||
-			tag.toLowerCase() === watchSearch
+			tag.toLowerCase() === watchSearch ||
+			prompt.toLowerCase() === watchSearch
 	);
 
 	const renderPrompts = () => {

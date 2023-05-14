@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import PromptList from "./PromptList";
-
-import { usePromptStore } from "@context/promptStore";
+import { FadeLoader } from "react-spinners";
 import { useQuery } from "@tanstack/react-query";
 
 type FormData = { prompt: string };
@@ -19,21 +18,24 @@ const Feed = () => {
 		queryFn: getAllPrompts,
 	});
 
-	if (isLoading) return <p>dog</p>;
 	return (
 		<section className="feed">
 			<form className="relative w-full flex-center">
 				<input
 					placeholder="Search for a tag or proompter's name"
-					className="search_input peer"
+					className="input peer"
 					{...register("prompt")}
 				></input>
 			</form>
-			<PromptList
-				prompts={data}
-				handleTagSearch={(tag) => setValue("prompt", tag)}
-				watchSearch={watch("prompt")}
-			></PromptList>
+			{isLoading ? (
+				<FadeLoader color={"rgb(30 41 59)"} />
+			) : (
+				<PromptList
+					prompts={data}
+					handleTagSearch={(tag) => setValue("prompt", tag)}
+					watchSearch={watch("prompt")}
+				></PromptList>
+			)}
 		</section>
 	);
 };

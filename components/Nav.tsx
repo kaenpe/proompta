@@ -7,7 +7,6 @@ import Image from "next/image";
 const Nav = () => {
 	const { data: session } = useSession();
 	const [providers, setProviders]: any = useState(null);
-	const [toggleDrop, setToggleDrop] = useState(false);
 
 	useEffect(() => {
 		const pullProviders = async () => {
@@ -32,11 +31,14 @@ const Nav = () => {
 			{/*desktop nav*/}
 			<div className="sm:flex hidden">
 				{session?.user ? (
-					<div className="flex gap-3 md:gap-5 ">
-						<Link href="/prompt" className="black_btn">
+					<div className="flex gap-3 md:gap-5 items-center ">
+						<Link href="/prompt" className="btn btn-sm">
 							<button>Create Prompt</button>
 						</Link>
-						<button className="outline_btn" onClick={() => signOut()}>
+						<button
+							className="btn btn-outline btn-sm"
+							onClick={() => signOut()}
+						>
 							Sign Out
 						</button>
 						<Link href={`/profile/${session.user.name}?id=${session.user.id}`}>
@@ -54,7 +56,7 @@ const Nav = () => {
 						{providers &&
 							Object.values(providers).map((provider: any) => (
 								<button
-									className="black_btn"
+									className="btn"
 									key={provider.name}
 									onClick={() => signIn(provider.id)}
 								>
@@ -67,49 +69,39 @@ const Nav = () => {
 
 			<div className="sm:hidden flex relative">
 				{session?.user ? (
-					<div className="flex">
+					<div className="dropdown dropdown-left">
 						<Image
 							src={session?.user.image as string}
 							width={37}
 							height={37}
 							className="rounded-full"
+							tabIndex={0}
 							alt="profile"
-							onClick={() => setToggleDrop((prev) => !prev)}
+							// onClick={() => setToggleDrop((prev) => !prev)}
 						></Image>
-						{toggleDrop && (
-							<div className="dropdown">
-								<Link
-									href={`profile/${session?.user.name}?id=${session.user.id}`}
-									className="dropdown_link"
-									onClick={() => setToggleDrop(false)}
-								>
-									My Profile
-								</Link>
-								<Link
-									href="/create-prompt"
-									className="dropdown_link"
-									onClick={() => setToggleDrop(false)}
-								>
-									Write a prompt
-								</Link>
-								<button
-									className="w-full black_btn"
-									onClick={() => {
-										setToggleDrop(false);
-										signOut();
-									}}
-								>
-									Sign Out
-								</button>
-							</div>
-						)}
+
+						<div
+							className="dropdown-content menu p-2 mr-4 shadow bg-base-100 rounded-box w-52"
+							tabIndex={0}
+						>
+							<Link
+								href={`profile/${session?.user.name}?id=${session.user.id}`}
+								className="btn btn-sm m-2"
+							>
+								My Profile
+							</Link>
+							<Link href="/create-prompt" className="btn btn-sm m-2">
+								Write a prompt
+							</Link>
+							<button className="btn btn-sm m-2">Sign Out</button>
+						</div>
 					</div>
 				) : (
 					<>
 						{providers &&
 							Object.values(providers).map((provider: any) => (
 								<button
-									className="black_btn"
+									className="btn"
 									key={provider.name}
 									onClick={() => signIn(provider.id)}
 								>
