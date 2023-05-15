@@ -15,10 +15,9 @@ const PromptList = ({
 }) => {
 	const filteredData = prompts.filter(
 		({ tag, creator, prompt }: Prompt) =>
-			creator.username.toLowerCase() === watchSearch ||
-			tag.toLowerCase() === watchSearch ||
-			prompt.toLowerCase() === watchSearch ||
-			watchSearch === ""
+			creator.username.toLowerCase().includes(watchSearch.toLowerCase()) ||
+			tag.toLowerCase().includes(watchSearch.toLowerCase()) ||
+			prompt.toLowerCase().includes(watchSearch.toLowerCase())
 	);
 
 	const currentPage = usePageStore((state) => state.currentPage);
@@ -29,7 +28,7 @@ const PromptList = ({
 
 	const renderPrompts = () => {
 		return filteredData.map((promptData: Prompt, id) => {
-			if (id < currentPage * 6 && id >= currentPage * 6 - 6)
+			if (id < currentPage * 3 && id >= currentPage * 3 - 3)
 				return (
 					<Card
 						key={promptData._id}
@@ -46,7 +45,6 @@ const PromptList = ({
 			<div className="prompt_layout">
 				<div>{renderPrompts()}</div>
 			</div>
-
 			<Pagination filteredData={filteredData}></Pagination>
 		</>
 	);

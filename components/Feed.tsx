@@ -7,7 +7,11 @@ import { useQuery } from "@tanstack/react-query";
 import { FormData } from "@types";
 
 const Feed = () => {
-	const { register, watch, setValue } = useForm<FormData>();
+	const { register, watch, setValue } = useForm<FormData>({
+		defaultValues: {
+			prompt: "",
+		},
+	});
 	const getAllPrompts = async () => {
 		const res = await fetch("api/prompts");
 		const data = await res.json();

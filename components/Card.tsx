@@ -112,7 +112,7 @@ const Card = ({
 				<p
 					className="transition-all font-inter text-sm text-slate-950 hover:text-transparent bg-clip-text hover:bg-gradient-to-r from-rose-800 via-rose-500 to-rose-900  cursor-pointer"
 					onClick={
-						watchSearch === ""
+						watchSearch !== promptData.tag
 							? () => handleTagSearch(promptData.tag)
 							: () => handleTagSearch("")
 					}

@@ -18,7 +18,7 @@ const Pagination = ({ filteredData }: { filteredData: Prompt[] }) => {
 			<button
 				className="btn"
 				onClick={() =>
-					Math.ceil(filteredData.length / 6) > currentPage &&
+					Math.ceil(filteredData.length / 3) > currentPage &&
 					setCurrentPage(currentPage + 1)
 				}
 			>
