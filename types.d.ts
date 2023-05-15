@@ -36,3 +36,7 @@ export interface INewRequest extends NextApiRequest {
 		tag?: string;
 	}; // or any other type
 }
+
+export interface FormData {
+	prompt: string;
+}

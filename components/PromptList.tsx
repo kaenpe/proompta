@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "./Card";
 import { Prompt } from "@types";
+import { usePageStore } from "@context/pageStore";
+import Pagination from "./Pagination";
 
 const PromptList = ({
 	prompts,
@@ -15,30 +17,39 @@ const PromptList = ({
 		({ tag, creator, prompt }: Prompt) =>
 			creator.username.toLowerCase() === watchSearch ||
 			tag.toLowerCase() === watchSearch ||
-			prompt.toLowerCase() === watchSearch
+			prompt.toLowerCase() === watchSearch ||
+			watchSearch === ""
 	);
 
+	const currentPage = usePageStore((state) => state.currentPage);
+	const setCurrentPage = usePageStore((state) => state.setCurrentPage);
+	useEffect(() => {
+		setCurrentPage(1);
+	}, [watchSearch, setCurrentPage]);
+
 	const renderPrompts = () => {
-		if (watchSearch === undefined || watchSearch === "")
-			return prompts.map((promptData: Prompt) => (
-				<Card
-					key={promptData._id}
-					promptData={promptData}
-					handleTagSearch={handleTagSearch}
-					watchSearch={watchSearch}
-				></Card>
-			));
-		else
-			return filteredData.map((promptData: Prompt) => (
-				<Card
-					key={promptData._id}
-					promptData={promptData}
-					handleTagSearch={handleTagSearch}
-					watchSearch={watchSearch}
-				></Card>
-			));
+		return filteredData.map((promptData: Prompt, id) => {
+			if (id < currentPage * 6 && id >= currentPage * 6 - 6)
+				return (
+					<Card
+						key={promptData._id}
+						promptData={promptData}
+						handleTagSearch={handleTagSearch}
+						watchSearch={watchSearch}
+					></Card>
+				);
+		});
 	};
-	return <div className="mt-16 prompt_layout">{renderPrompts()}</div>;
+
+	return (
+		<>
+			<div className="prompt_layout">
+				<div>{renderPrompts()}</div>
+			</div>
+
+			<Pagination filteredData={filteredData}></Pagination>
+		</>
+	);
 };
 
 export default PromptList;

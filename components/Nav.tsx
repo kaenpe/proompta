@@ -17,7 +17,7 @@ const Nav = () => {
 	}, []);
 
 	return (
-		<nav className="flex-between w-full mb-16 pt-3">
+		<nav className="flex-between w-full mb-4 pt-3">
 			<Link href="/" className="flex gap-2 flex-center">
 				<Image
 					src="/assets/images/logo.svg"
@@ -41,7 +41,7 @@ const Nav = () => {
 						>
 							Sign Out
 						</button>
-						<Link href={`/profile/${session.user.name}?id=${session.user.id}`}>
+						<Link href={`profile`}>
 							<Image
 								src={session?.user.image as string}
 								width={37}
@@ -84,10 +84,7 @@ const Nav = () => {
 							className="dropdown-content menu p-2 mr-4 shadow bg-base-100 rounded-box w-52"
 							tabIndex={0}
 						>
-							<Link
-								href={`profile/${session?.user.name}?id=${session.user.id}`}
-								className="btn btn-sm m-2"
-							>
+							<Link href={`profile`} className="btn btn-sm m-2">
 								My Profile
 							</Link>
 							<Link href="/create-prompt" className="btn btn-sm m-2">

@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import PromptList from "./PromptList";
 import { FadeLoader } from "react-spinners";
 import { useQuery } from "@tanstack/react-query";
+import { FormData } from "@types";
 
-type FormData = { prompt: string };
 const Feed = () => {
 	const { register, watch, setValue } = useForm<FormData>();
 	const getAllPrompts = async () => {
