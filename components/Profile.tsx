@@ -2,12 +2,13 @@
 import React, { useState } from "react";
 import PromptList from "./PromptList";
 import { useSession } from "next-auth/react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { FadeLoader } from "react-spinners";
 
 const Profile = () => {
 	const [searchPrompt, setSearchPrompt] = useState("");
+	const { name } = useParams();
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const id = searchParams.get("id");
@@ -29,6 +30,19 @@ const Profile = () => {
 
 	return (
 		<section className="feed">
+			{id === session?.user.id ? (
+				<>
+					<h1 className="red_gradient head_text text-center">
+						Browse your profile
+					</h1>
+				</>
+			) : (
+				<>
+					<h1 className="red_gradient head_text text-center">
+						Browsing {name} prompts
+					</h1>{" "}
+				</>
+			)}
 			{isLoading ? (
 				<FadeLoader color={"rgb(30 41 59)"} />
 			) : (

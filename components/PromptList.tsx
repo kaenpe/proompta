@@ -42,9 +42,7 @@ const PromptList = ({
 
 	return (
 		<>
-			<div className="prompt_layout">
-				<div>{renderPrompts()}</div>
-			</div>
+			<div className="prompt_layout">{renderPrompts()}</div>
 			<Pagination filteredData={filteredData}></Pagination>
 		</>
 	);
